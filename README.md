@@ -33,6 +33,15 @@ It simulates senior responder behavior through skeptical review, strategy pivots
   - quarantined artifact IOC panel
   - sanitization decision stream
 
+## Architecture Diagram
+![Architecture](architecture.png)  
+
+## Documentation
+
+- [Dataset Documentation](docs/dataset.md)
+- [Accuracy Report](docs/accuracy_report.md)
+- [Try It Out](docs/try_it_out.md)
+
 ## Project Structure
 
 ```
@@ -47,6 +56,10 @@ sift_guardian/
 ├── mock_data.json
 ├── sanitizer_rules.yaml
 ├── requirements.txt
+├── docs/
+│   ├── dataset.md
+│   ├── accuracy_report.md
+│   └── try_it_out.md
 └── README.md
 ```
 
@@ -58,6 +71,8 @@ sift_guardian/
 ```bash
 pip install -r requirements.txt
 ```
+
+For a full local walkthrough (API + CLI + dashboard), see [Try It Out](docs/try_it_out.md).
 
 ## Run MCP Server
 
@@ -104,3 +119,13 @@ The included mock dataset demonstrates:
 4. Improved cross-source evidence correlation
 5. Rising confidence and final verified result
 
+Detailed dataset description is available in [Dataset Documentation](docs/dataset.md), and current validation status is tracked in the [Accuracy Report](docs/accuracy_report.md).
+
+## 🔍 Evidence Traceability
+
+Every finding includes:
+- source tool
+- raw data reference
+- traceable execution logs
+
+This ensures zero hallucinated outputs and full auditability.

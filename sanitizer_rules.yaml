@@ -1,0 +1,24 @@
+high_signal_patterns:
+  - "\\bignore\\s+(all\\s+)?(previous|prior)\\s+instructions?\\b"
+  - "\\bsystem\\s+override\\b"
+  - "\\bdisregard\\b.*\\binstructions?\\b"
+  - "\\bset\\s+confidence\\s+to\\s+\\d+\\b"
+  - "\\bdeclare\\s+the\\s+system\\s+clean\\b"
+  - "\\bterminate\\s+analysis\\b"
+
+low_signal_keywords:
+  - "override"
+  - "system"
+  - "terminate"
+
+benign_context_patterns:
+  - "\\bservice\\s+terminated\\b"
+  - "\\boverride\\s+policy\\b"
+  - "\\bterminate\\s+process\\s+id\\b"
+  - "\\bsystem\\s+reboot\\b"
+  - "\\bmaintenance\\s+window\\b"
+
+risk_model:
+  high_signal_weight: 2
+  low_signal_threshold: 2
+  quarantine_on_any_high_signal: true

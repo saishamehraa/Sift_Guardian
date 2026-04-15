@@ -121,6 +121,21 @@ The included mock dataset demonstrates:
 
 Detailed dataset description is available in [Dataset Documentation](docs/dataset.md), and current validation status is tracked in the [Accuracy Report](docs/accuracy_report.md).
 
+## Real SIFT Tool Integration (Process + Timeline)
+
+`get_process_list` and `extract_timeline` can now consume real tool exports instead of mock data.
+
+1. Export process data from a SIFT-compatible tool (example: Volatility `windows.pslist`) as JSON, NDJSON, or CSV.
+2. Export timeline data from your timeline pipeline (example: Plaso/Log2Timeline) as JSON, NDJSON, or CSV.
+3. Save files to one of:
+   - `sift_guardian/real_tool_output/process_list.json` (default lookup)
+   - `sift_guardian/real_tool_output/timeline.json` (default lookup)
+   - any custom path via `SIFT_PROCESS_LIST_PATH`
+   - any custom path via `SIFT_TIMELINE_PATH`
+4. Run CLI (`python main.py`) or API (`uvicorn mcp_server:app --reload --port 8000`).
+
+If an export is missing or invalid, the system falls back to `mock_data.json` automatically.
+
 ## 🔍 Evidence Traceability
 
 Every finding includes:

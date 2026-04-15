@@ -5,7 +5,7 @@ from typing import Any, Dict, List
 
 from fastapi import FastAPI
 
-from utils import load_mock_data
+from utils import load_mock_data, load_process_list_with_real_fallback, load_timeline_with_real_fallback
 
 BASE_PATH = Path(__file__).resolve().parent
 DATA = load_mock_data(BASE_PATH)
@@ -19,12 +19,12 @@ app = FastAPI(
 
 @app.get("/get_process_list")
 def get_process_list() -> Dict[str, List[Dict[str, Any]]]:
-    return {"process_list": DATA["process_list"]}
+    return {"process_list": load_process_list_with_real_fallback(BASE_PATH, DATA)}
 
 
 @app.get("/extract_timeline")
 def extract_timeline() -> Dict[str, List[Dict[str, Any]]]:
-    return {"timeline": DATA["timeline"]}
+    return {"timeline": load_timeline_with_real_fallback(BASE_PATH, DATA)}
 
 
 @app.get("/get_login_events")

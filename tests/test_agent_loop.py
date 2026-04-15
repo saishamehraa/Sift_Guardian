@@ -183,3 +183,25 @@ risk_model:
     assert not safe_2
     assert quarantined_2, "Updated YAML rules should quarantine payload without restarting process."
 
+
+def test_extract_timeline_uses_real_export_when_env_override_is_set(tmp_path, monkeypatch) -> None:
+    timeline_export = tmp_path / "timeline.ndjson"
+    timeline_export.write_text(
+        "\n".join(
+            [
+                '{"datetime":"2026-04-14T10:18:30Z","sourcetype":"FILE","event":"File Created","path":"C:\\\\Users\\\\alice\\\\AppData\\\\Roaming\\\\update.ps1","message":"Script dropped"}',
+                '{"timestamp":"2026-04-14T10:20:10Z","source":"WEBHIST","event_type":"network_connection","artifact":"https://mal.example","details":"Outbound callback"}',
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setenv("SIFT_TIMELINE_PATH", str(timeline_export))
+    timeline_rows = main.extract_timeline()
+
+    assert len(timeline_rows) == 2
+    assert all(row.get("collection_source") == "real_sift_export" for row in timeline_rows)
+    assert timeline_rows[0]["source"] == "FILE"
+    assert timeline_rows[0]["event_type"] == "File Created"
+    assert timeline_rows[0]["artifact"] == "C:\\Users\\alice\\AppData\\Roaming\\update.ps1"
+

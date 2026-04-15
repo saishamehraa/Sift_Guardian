@@ -12,18 +12,24 @@ from agents import (
     verifier_agent,
 )
 from state import InvestigationState
-from utils import load_mock_data, log_event, print_logs
+from utils import (
+    load_mock_data,
+    load_process_list_with_real_fallback,
+    load_timeline_with_real_fallback,
+    log_event,
+    print_logs,
+)
 
 BASE_PATH = Path(__file__).resolve().parent
 DATA = load_mock_data(BASE_PATH)
 
 
 def get_process_list() -> List[Dict[str, Any]]:
-    return DATA["process_list"]
+    return load_process_list_with_real_fallback(BASE_PATH, DATA)
 
 
 def extract_timeline() -> List[Dict[str, Any]]:
-    return DATA["timeline"]
+    return load_timeline_with_real_fallback(BASE_PATH, DATA)
 
 
 def get_login_events() -> List[Dict[str, Any]]:

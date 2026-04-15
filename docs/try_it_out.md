@@ -85,3 +85,27 @@ pytest -q
 
 Edit `sanitizer_rules.yaml`, then run investigation again (CLI or dashboard).
 No Python code change is needed for rule updates to be applied.
+
+## 7) Optional: Feed Real SIFT Tool Outputs
+
+You can replace mock process and timeline telemetry with real forensic exports:
+
+1. Generate a process list file from your SIFT workflow (for example, Volatility `windows.pslist`).
+2. Generate a timeline file (for example, Plaso/Log2Timeline output).
+3. Save outputs as JSON/NDJSON/CSV.
+4. Point SIFT-Guardian at those files:
+
+Windows PowerShell:
+
+```bash
+$env:SIFT_PROCESS_LIST_PATH="C:\path\to\process_list.json"
+$env:SIFT_TIMELINE_PATH="C:\path\to\timeline.ndjson"
+python main.py
+```
+
+Or use default paths without env vars:
+
+- `sift_guardian/real_tool_output/process_list.json`
+- `sift_guardian/real_tool_output/timeline.json`
+
+When present and parseable, `/get_process_list`, `/extract_timeline`, and the CLI use real exports automatically.
